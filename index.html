@@ -151,7 +151,9 @@
     cursor: pointer;
     transition: background 0.15s ease, box-shadow 0.15s ease;
   }
-  .opt:hover { background: var(--powder-soft); box-shadow: inset 0 0 0 1px var(--powder); }
+  @media (hover: hover) and (pointer: fine) {
+    .opt:hover { background: var(--powder-soft); box-shadow: inset 0 0 0 1px var(--powder); }
+  }
   .opt.picked { background: var(--powder); box-shadow: inset 0 0 0 1px var(--powder); }
   .back { margin-top: 20px; padding: 6px 0; border: 0; background: none; color: var(--muted); font-size: 14px; cursor: pointer; }
 
@@ -403,6 +405,7 @@ function renderQuestion() {
       track("answer", { step: step + 1, choice: btn.dataset.k });
       setTimeout(() => {
         step++;
+        if (document.activeElement) document.activeElement.blur();
         if (step < QUESTIONS.length) renderQuestion();
         else { myResult = score(); track("complete", { result: myResult, answers: answers.join(""), ms: Date.now() - startedAt }); renderResult(myResult); }
       }, 160);
